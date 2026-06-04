@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Directorio FLC · Asesores FLC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body, #root { height: 100%; }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; background: #EEF1F5; }
+
+    :root {
+      --flc-yellow: #FFD900;
+      --flc-yellow-deep: #F4C500;
+      --cat-ventas: oklch(0.78 0.13 84);
+      --cat-operaciones: oklch(0.70 0.085 205);
+      --cat-evaluadores: oklch(0.70 0.115 48);
+      --cat-liderazgo: oklch(0.62 0.095 285);
+      --bg: #EEF1F5;
+      --surface: #FFFFFF;
+      --ink: #18202E;
+      --sub: #5E6878;
+      --line: #E4E8EF;
+      --pad-x: 34px;
+      --head-bg: #18202E;
+      --radius-input: 10px;
+      --radius-chip: 10px;
+      --radius-card: 14px;
+      --radius-btn: 10px;
+      --cols: 3;
+      --gap: 20px;
+      --card-pad: 22px;
+      --av: 52px;
+      --name: 18px;
+    }
+
+    /* ── scrollbar ── */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-thumb { background: rgba(24,32,46,.18); border-radius: 8px; border: 2px solid transparent; background-clip: padding-box; }
+
+    /* ── layout ── */
+    .dir { min-height: 100vh; background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; }
+    svg { display: block; flex: none; }
+    a { text-decoration: none; color: inherit; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+    /* ── header ── */
+    .dir-head {
+      display: flex; align-items: center; justify-content: space-between; gap: 24px;
+      padding: 30px var(--pad-x) 22px;
+      background: var(--head-bg);
+      position: sticky; top: 0; z-index: 30;
+    }
+    .dir-brand { display: flex; align-items: center; gap: 14px; min-width: 0; }
+    .dir-badge {
+      width: 42px; height: 42px; border-radius: 50%; background: var(--flc-yellow);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 13px; color: #18202E; flex: none;
+    }
+    .dir-titles h1 { font-size: 25px; font-weight: 800; letter-spacing: -0.02em; color: #fff; line-height: 1.05; }
+    .dir-titles p { margin-top: 3px; font-size: 13px; font-weight: 500; color: #8A93A3; }
+    .dir-tools { display: flex; align-items: center; gap: 12px; flex: none; }
+    .dir-search {
+      display: flex; align-items: center; gap: 10px;
+      width: 300px; padding: 0 16px; height: 46px;
+      border-radius: var(--radius-input);
+      background: rgba(255,255,255,.08); border: 1.5px solid rgba(255,255,255,.16);
+    }
+    .dir-search svg { width: 18px; height: 18px; color: #8A93A3; }
+    .dir-search input {
+      border: none; outline: none; background: transparent;
+      font: inherit; font-size: 15px; color: #fff; width: 100%;
+    }
+    .dir-search input::placeholder { color: #8A93A3; }
+
+    /* ── filters ── */
+    .dir-filters {
+      display: flex; gap: 10px; flex-wrap: wrap;
+      padding: 24px var(--pad-x) 0;
+      margin-bottom: 22px;
+    }
+    .chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      height: 42px; padding: 0 20px;
+      border-radius: var(--radius-chip);
+      background: #fff; color: var(--sub);
+      border: 1.5px solid #E0E5EC;
+      font-size: 14px; font-weight: 600; white-space: nowrap;
+      transition: all .15s;
+    }
+    .chip .chip-dot { width: 7px; height: 7px; border-radius: 50%; opacity: .55; }
+    .chip.active { background: #18202E; color: #fff; border-color: #18202E; }
+    .chip.active .chip-dot { opacity: 1; }
+
+    /* ── grid ── */
+    .dir-body { padding: 0 var(--pad-x) 48px; }
+    .dir-count { font-size: 13px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--sub); margin-bottom: 16px; }
+    .dir-grid { display: grid; grid-template-columns: repeat(var(--cols), 1fr); gap: var(--gap); }
+
+    /* ── card ── */
+    .card {
+      background: var(--surface); border: 1px solid #E4E8EF;
+      border-radius: var(--radius-card); padding: var(--card-pad);
+      box-shadow: 0 1px 2px rgba(24,32,46,.04), 0 12px 28px -20px rgba(24,32,46,.3);
+      display: flex; flex-direction: column; gap: 16px; position: relative;
+    }
+    .card-top { display: flex; align-items: flex-start; gap: 14px; }
+    .avatar {
+      width: var(--av); height: var(--av); border-radius: 50%; flex: none;
+      display: grid; place-items: center;
+      font-weight: 700; font-size: 17px; letter-spacing: .02em;
+      background: #18202E; color: #fff;
+      box-shadow: 0 0 0 3px var(--flc-yellow);
+    }
+    .card-id { min-width: 0; flex: 1; }
+    .card-id h3 { font-size: var(--name); font-weight: 700; letter-spacing: -0.01em; line-height: 1.15; }
+    .card-id .cargo { margin-top: 3px; font-size: 13.5px; font-weight: 500; color: var(--sub); }
+    .tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 11px; }
+    .tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      height: 25px; padding: 0 10px; border-radius: 999px;
+      font-size: 12px; font-weight: 600;
+      background: #F1F4F8; color: #546072;
+    }
+    .tag .dot { width: 7px; height: 7px; border-radius: 50%; }
+    .tag svg { width: 12px; height: 12px; opacity: .75; }
+
+    .btn-more {
+      position: absolute; top: var(--card-pad); right: var(--card-pad);
+      width: 30px; height: 30px; border-radius: 9px;
+      display: grid; place-items: center; color: var(--sub);
+    }
+    .btn-more:hover { background: rgba(24,32,46,.06); }
+    .btn-more svg { width: 18px; height: 18px; }
+
+    .card-contact { display: flex; flex-direction: column; gap: 9px; padding-top: 15px; border-top: 1px solid var(--line); }
+    .row { display: flex; align-items: center; gap: 11px; font-size: 14px; }
+    .row svg.lead { width: 16px; height: 16px; color: var(--ink); }
+    .row .val { font-weight: 500; }
+    .row .email { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; flex: 1; }
+    .btn-copy {
+      margin-left: auto; flex: none; width: 30px; height: 30px; border-radius: 8px;
+      display: grid; place-items: center; color: var(--sub);
+      border: 1px solid transparent; position: relative;
+    }
+    .btn-copy:hover { background: rgba(24,32,46,.06); color: var(--ink); }
+    .btn-copy svg { width: 15px; height: 15px; }
+    .btn-copy.copied { color: #1F8A5B; background: rgba(31,138,91,.14); }
+    .copy-flag {
+      position: absolute; right: 0; top: -30px;
+      background: #18202E; color: #fff; font-size: 11px; font-weight: 600;
+      padding: 4px 9px; border-radius: 7px; white-space: nowrap;
+      box-shadow: 0 6px 16px -6px rgba(0,0,0,.5); pointer-events: none;
+    }
+    .copy-flag::after {
+      content: ""; position: absolute; right: 11px; bottom: -4px;
+      width: 8px; height: 8px; background: #18202E; transform: rotate(45deg);
+    }
+
+    .card-actions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 9px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+      height: 42px; border-radius: var(--radius-btn);
+      font-size: 13.5px; font-weight: 600; font-family: inherit;
+      background: #fff; color: #2A3445; border: 1.5px solid #DDE3EB;
+      transition: all .15s; white-space: nowrap; cursor: pointer;
+    }
+    .btn svg { width: 15px; height: 15px; }
+    .btn:hover { background: #F4F6F9; }
+    .btn.primary { background: var(--flc-yellow); color: #2A2620; border-color: var(--flc-yellow); }
+    .btn.primary:hover { background: var(--flc-yellow-deep); border-color: var(--flc-yellow-deep); }
+
+    .card-foot { display: flex; align-items: center; justify-content: flex-end; }
+    .profile-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--ink); }
+    .profile-link svg { width: 14px; height: 14px; transition: transform .15s; }
+    .profile-link:hover svg { transform: translateX(3px); }
+
+    /* ── empty ── */
+    .dir-empty { padding: 56px 0; text-align: center; color: var(--sub); }
+    .dir-empty strong { display: block; color: var(--ink); font-weight: 700; font-size: 17px; margin-bottom: 4px; }
+
+    /* ── modal ── */
+    .overlay {
+      position: fixed; inset: 0; z-index: 70;
+      display: flex; align-items: center; justify-content: center; padding: 24px;
+      background: rgba(16,22,34,.55); backdrop-filter: blur(3px);
+      animation: ov-in .18s ease;
+    }
+    @keyframes ov-in { from { opacity: 0; } to { opacity: 1; } }
+    .modal {
+      background: var(--surface); border-radius: 18px; width: 100%; max-width: 430px;
+      box-shadow: 0 36px 90px -22px rgba(0,0,0,.6); overflow: hidden;
+      animation: md-in .22s cubic-bezier(.2,.8,.3,1);
+    }
+    @keyframes md-in { from { transform: translateY(14px) scale(.97); opacity: 0; } to { transform: none; opacity: 1; } }
+    .modal-top { background: #18202E; color: #fff; padding: 26px 26px 22px; position: relative; }
+    .modal-close {
+      position: absolute; top: 16px; right: 16px; width: 34px; height: 34px;
+      border-radius: 10px; display: grid; place-items: center;
+      color: rgba(255,255,255,.75); background: rgba(255,255,255,.08);
+      font-size: 20px; line-height: 1; cursor: pointer;
+    }
+    .modal-close:hover { background: rgba(255,255,255,.16); color: #fff; }
+    .modal-avatar {
+      width: 64px; height: 64px; border-radius: 50%;
+      display: grid; place-items: center; font-weight: 700; font-size: 22px;
+      background: #2A3445; color: #fff;
+      box-shadow: 0 0 0 3px var(--flc-yellow); margin-bottom: 14px; font-family: inherit;
+    }
+    .modal-top h3 { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
+    .modal-top .cargo { margin-top: 4px; font-size: 14px; color: #AEB7C5; font-weight: 500; }
+    .modal-top .tags { margin-top: 13px; }
+    .modal-top .tag { background: rgba(255,255,255,.1); color: #D6DCE4; }
+    .modal-body { padding: 20px 26px 24px; display: flex; flex-direction: column; gap: 4px; }
+    .modal-row {
+      display: flex; align-items: center; gap: 13px; padding: 12px 0;
+      border-bottom: 1px solid var(--line); font-size: 14.5px;
+    }
+    .modal-row:last-of-type { border-bottom: none; }
+    .modal-row svg.lead { width: 18px; height: 18px; color: var(--ink); }
+    .mr-label { color: var(--sub); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+    .mr-val { color: var(--ink); font-weight: 600; }
+    .modal-row .btn-copy { margin-left: auto; }
+    .modal-actions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 9px; margin-top: 16px; }
+    .modal-actions .btn { height: 46px; }
+
+    /* ── responsive ── */
+    @media (max-width: 900px) { :root { --cols: 2; --pad-x: 20px; } }
+    @media (max-width: 600px) {
+      :root { --cols: 1; --pad-x: 16px; --gap: 14px; --card-pad: 18px; --av: 46px; --name: 16.5px; }
+      .dir-head { flex-direction: column; align-items: stretch; gap: 14px; padding-top: 20px; padding-bottom: 16px; }
+      .dir-tools { gap: 10px; }
+      .dir-search { width: 100%; flex: 1; height: 44px; }
+      .dir-filters { flex-wrap: nowrap; overflow-x: auto; -ms-overflow-style: none; scrollbar-width: none; padding-bottom: 4px; }
+      .dir-filters::-webkit-scrollbar { display: none; }
+      .btn { font-size: 12.5px; height: 40px; gap: 5px; padding: 0 4px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+
+  <script>
+  const { useState, createElement: h, Fragment } = React;
+
+  const CATS = {
+    ventas:      { label: 'Ventas',      color: 'var(--cat-ventas)' },
+    operaciones: { label: 'Operaciones', color: 'var(--cat-operaciones)' },
+    evaluadores: { label: 'Evaluadores', color: 'var(--cat-evaluadores)' },
+    directorio:  { label: 'Directorio',  color: 'var(--cat-liderazgo)' },
+  };
+  const FILTERS = ['Todos', 'Ventas', 'Operaciones', 'Evaluadores', 'Directorio'];
+
+  const PEOPLE = [
+    { n: 'Catalina Rojas',  r: 'Ejecutiva Comercial',   c: 'ventas',      city: 'Santiago', anexo: '112', t: '+56 9 6721 4480', m: 'catalina.rojas@asesoresflc.cl' },
+    { n: 'Matías Fuentes',  r: 'Ejecutivo Comercial',   c: 'ventas',      city: 'Temuco',   anexo: '118', t: '+56 9 8254 1097', m: 'matias.fuentes@asesoresflc.cl' },
+    { n: 'Javiera Soto',    r: 'Experiencia Cliente',   c: 'operaciones', city: 'Santiago', anexo: '204', t: '+56 9 4410 3362', m: 'javiera.soto@asesoresflc.cl' },
+    { n: 'Diego Cárcamo',   r: 'Analista de Cobranza',  c: 'operaciones', city: 'Santiago', anexo: '210', t: '+56 9 2980 7715', m: 'diego.carcamo@asesoresflc.cl' },
+    { n: 'Ignacio Muñoz',   r: 'Evaluador de Daños',    c: 'evaluadores', city: 'Santiago', anexo: '305', t: '+56 9 7782 5519', m: 'ignacio.munoz@asesoresflc.cl' },
+    { n: 'Francisca Vega',  r: 'Evaluadora de Daños',   c: 'evaluadores', city: 'Temuco',   anexo: '312', t: '+56 9 5036 8841', m: 'francisca.vega@asesoresflc.cl' },
+    { n: 'Rodrigo Lagos',   r: 'Gerente Santiago',      c: 'directorio',  city: 'Santiago', anexo: '101', t: '+56 9 3398 2274', m: 'rodrigo.lagos@asesoresflc.cl' },
+    { n: 'Andrea Paredes',  r: 'Gerente Temuco',        c: 'directorio',  city: 'Temuco',   anexo: '102', t: '+56 9 6145 9032', m: 'andrea.paredes@asesoresflc.cl' },
+  ];
+
+  const initials = n => n.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
+  const telHref  = t => 'tel:' + t.replace(/[^\d+]/g,'');
+  const waHref   = t => 'https://wa.me/' + t.replace(/\D/g,'');
+  const norm     = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+
+  /* ── SVG icons ── */
+  const svg = (d, extra='') => ({
+    search: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></svg>`,
+  });
+
+  function Icon({ name, cls }) {
+    const icons = {
+      search:  h('svg',{viewBox:'0 0 24 24',fill:'none',stroke:'currentColor',strokeWidth:2,strokeLinecap:'round',className:cls},h('circle',{cx:11,cy:11,r:7}),h('path',{d:'m20 20-3.2-3.2'})),
+      phone:   h('svg',{viewBox:'0 0 24 24',fill:'none',stroke:'currentColor',strokeWidth:2,strokeLinecap:'round',strokeLinejoin:'round',className:cls},h('path',{d:'M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8 9.6a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2Z'})),
+      wa:      h('svg',{viewBox:'0 0 24 24',fill:'none',stroke:'currentColor',strokeWidth:2,strokeLinecap:'round',strokeLinejoin:'round',className:cls},h('path',{d:'M21 11.5a8.4 8.4 0 0 1-12.6 7.3L3 21l2.3-5.3A8.4 8.4 0 1 1 21 11.5Z'}),h('path',{d:'M9.2 8.6c.2-.5.4-.5.6-.5h.5c.2 0 .4 0 .6.4l.7 1.6c.1.2 0 .4 0 .5l-.4.5c-.1.2-.3.3-.1.6.5.9 1.2 1.5 2.1 2 .3.1.4 0 .6-.1l.5-.6c.2-.2.3-.1.5-.1l1.6.8c.2.1.4.2.4.3.1.4 0 .9-.2 1.2-.3.4-1 .8-1.5.8-1.3.1-2.9-.6-4-1.5a8 8 0 0 1-2-2.6c-.3-.6-.3-1.4 0-1.9Z',fill:'currentColor',stroke:'none'})),
+      mail:    h('svg',{viewBox:'0 0 24 24',fill:'none',stroke:'currentColor',strokeWidth:2,strokeLinecap:'round',strokeLinejoin:'round',className:cls},h('rect',{x:2.5,y:4.5,width:19,height:15,rx:2.5}),h('path',{d:'m3 6.5 9 6 9-6'})),
+      copy:    h('svg',{viewBox:'0 0 24 24',fill:'none',stroke:'currentColor',strokeWidth:2,strokeLinecap:'round',strokeLinejoin:'round',className:cls},h('rect',{x:9,y:9,width:11,height:11,rx:2.5}),h('path',{d:'M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1'})),
+      check:   h('svg',{viewBox:'0 0 24 24',fill:'none',stroke:'currentColor',strokeWidth:2.4,strokeLinecap:'round',strokeLinejoin:'round',className:cls},h('path',{d:'M5 12.5l4.5 4.5L19 6.5'})),
+      pin:     h('svg',{viewBox:'0 0 24 24',fill:'none',stroke:'currentColor',strokeWidth:2,strokeLinecap:'round',strokeLinejoin:'round',className:cls},h('path',{d:'M20 10c0 5.4-8 11-8 11s-8-5.6-8-11a8 8 0 0 1 16 0Z'}),h('circle',{cx:12,cy:10,r:2.6})),
+      tower:   h('svg',{viewBox:'0 0 24 24',fill:'none',stroke:'currentColor',strokeWidth:2,strokeLinecap:'round',strokeLinejoin:'round',className:cls},h('path',{d:'M12 8v13M8 21h8M5 5a8 8 0 0 0 0 10M19 5a8 8 0 0 1 0 10M8 8a4 4 0 0 1 0 4M16 8a4 4 0 0 1 0 4'})),
+      arrow:   h('svg',{viewBox:'0 0 24 24',fill:'none',stroke:'currentColor',strokeWidth:2,strokeLinecap:'round',strokeLinejoin:'round',className:cls},h('path',{d:'M5 12h14M13 6l6 6-6 6'})),
+      more:    h('svg',{viewBox:'0 0 24 24',fill:'none',stroke:'currentColor',strokeWidth:2.2,strokeLinecap:'round',className:cls},h('circle',{cx:5,cy:12,r:1}),h('circle',{cx:12,cy:12,r:1}),h('circle',{cx:19,cy:12,r:1})),
+    };
+    return icons[name] || null;
+  }
+
+  function CopyBtn({ value, label }) {
+    const [done, setDone] = useState(false);
+    function copy(e) {
+      e.stopPropagation();
+      try { navigator.clipboard?.writeText(value); } catch(_){}
+      setDone(true);
+      setTimeout(()=>setDone(false), 1500);
+    }
+    return h('button', { className: 'btn-copy' + (done?' copied':''), title: label, onClick: copy },
+      Icon({ name: done ? 'check' : 'copy' }),
+      done && h('span', { className: 'copy-flag' }, 'Copiado')
+    );
+  }
+
+  function Tags({ p }) {
+    const meta = CATS[p.c];
+    return h('div', { className: 'tags' },
+      h('span', { className: 'tag' }, h('span',{className:'dot',style:{background:meta.color}}), meta.label),
+      h('span', { className: 'tag' }, Icon({name:'pin'}), p.city)
+    );
+  }
+
+  function Card({ p, onOpen }) {
+    return h('article', { className: 'card' },
+      h('button', { className: 'btn-more', title:'Ver perfil', onClick:()=>onOpen(p) }, Icon({name:'more'})),
+      h('div', { className: 'card-top' },
+        h('div', { className: 'avatar' }, initials(p.n)),
+        h('div', { className: 'card-id' },
+          h('h3', null, p.n),
+          h('p', { className: 'cargo' }, p.r),
+          h(Tags, { p })
+        )
+      ),
+      h('div', { className: 'card-contact' },
+        h('div', { className: 'row' }, Icon({name:'phone',cls:'lead'}), h('span',{className:'val'}, p.t), h(CopyBtn,{value:p.t,label:'Copiar teléfono'})),
+        h('div', { className: 'row' }, Icon({name:'mail',cls:'lead'}), h('span',{className:'email'}, p.m))
+      ),
+      h('div', { className: 'card-actions' },
+        h('a', { className:'btn primary', href:telHref(p.t) }, Icon({name:'phone'}), 'Llamar'),
+        h('a', { className:'btn', href:waHref(p.t), target:'_blank', rel:'noreferrer' }, Icon({name:'wa'}), 'WhatsApp'),
+        h('a', { className:'btn', href:'mailto:'+p.m }, Icon({name:'mail'}), 'Email')
+      ),
+      h('div', { className: 'card-foot' },
+        h('button', { className:'profile-link', onClick:()=>onOpen(p) }, 'Ver perfil completo ', Icon({name:'arrow'}))
+      )
+    );
+  }
+
+  function Profile({ p, onClose }) {
+    return h('div', { className:'overlay', onClick:onClose },
+      h('div', { className:'modal', onClick:e=>e.stopPropagation() },
+        h('div', { className:'modal-top' },
+          h('button', { className:'modal-close', onClick:onClose }, '×'),
+          h('div', { className:'modal-avatar' }, initials(p.n)),
+          h('h3', null, p.n),
+          h('p', { className:'cargo' }, p.r),
+          h(Tags, { p })
+        ),
+        h('div', { className:'modal-body' },
+          h('div',{className:'modal-row'}, Icon({name:'phone',cls:'lead'}), h('div',null,h('div',{className:'mr-label'},'Teléfono'),h('div',{className:'mr-val'},p.t)), h(CopyBtn,{value:p.t,label:'Copiar teléfono'})),
+          h('div',{className:'modal-row'}, Icon({name:'tower',cls:'lead'}), h('div',null,h('div',{className:'mr-label'},'Anexo interno'),h('div',{className:'mr-val'},'Anexo '+p.anexo)), h(CopyBtn,{value:p.anexo,label:'Copiar anexo'})),
+          h('div',{className:'modal-row'}, Icon({name:'mail',cls:'lead'}), h('div',{style:{minWidth:0}},h('div',{className:'mr-label'},'Email'),h('div',{className:'mr-val',style:{overflow:'hidden',textOverflow:'ellipsis'}},p.m)), h(CopyBtn,{value:p.m,label:'Copiar email'})),
+          h('div',{className:'modal-row'}, Icon({name:'pin',cls:'lead'}), h('div',null,h('div',{className:'mr-label'},'Sucursal'),h('div',{className:'mr-val'},p.city))),
+          h('div',{className:'modal-actions'},
+            h('a',{className:'btn primary',href:telHref(p.t)},Icon({name:'phone'}),'Llamar'),
+            h('a',{className:'btn',href:waHref(p.t),target:'_blank',rel:'noreferrer'},Icon({name:'wa'}),'WhatsApp'),
+            h('a',{className:'btn',href:'mailto:'+p.m},Icon({name:'mail'}),'Email')
+          )
+        )
+      )
+    );
+  }
+
+  function App() {
+    const [q, setQ] = useState('');
+    const [filter, setFilter] = useState('Todos');
+    const [open, setOpen] = useState(null);
+
+    const list = PEOPLE.filter(p => {
+      const okCat = filter === 'Todos' || CATS[p.c].label === filter;
+      const okQ = !q || norm(p.n).includes(norm(q)) || norm(p.r).includes(norm(q));
+      return okCat && okQ;
+    });
+
+    return h(Fragment, null,
+      h('div', { className: 'dir' },
+        h('header', { className: 'dir-head' },
+          h('div', { className: 'dir-brand' },
+            h('div', { className: 'dir-badge' }, 'FLC'),
+            h('div', { className: 'dir-titles' },
+              h('h1', null, 'Directorio FLC'),
+              h('p', null, 'Asesores FLC · Equipo')
+            )
+          ),
+          h('div', { className: 'dir-tools' },
+            h('div', { className: 'dir-search' },
+              Icon({ name: 'search' }),
+              h('input', { placeholder: 'Buscar por nombre…', value: q, onChange: e => setQ(e.target.value) })
+            )
+          )
+        ),
+        h('nav', { className: 'dir-filters' },
+          FILTERS.map(f => {
+            const meta = CATS[f.toLowerCase()];
+            return h('button', { key: f, className: 'chip' + (f===filter?' active':''), onClick: ()=>setFilter(f) },
+              meta && h('span', { className: 'chip-dot', style: { background: meta.color } }),
+              f
+            );
+          })
+        ),
+        h('div', { className: 'dir-body' },
+          h('p', { className: 'dir-count' }, list.length + (list.length===1?' persona':' personas')),
+          list.length === 0
+            ? h('div', { className: 'dir-empty' }, h('strong', null, 'Sin resultados'), `No encontramos a nadie con "${q}".`)
+            : h('div', { className: 'dir-grid' }, list.map(p => h(Card, { key: p.n, p, onOpen: setOpen })))
+        )
+      ),
+      open && h(Profile, { p: open, onClose: ()=>setOpen(null) })
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(h(App));
+  </script>
+</body>
+</html>
