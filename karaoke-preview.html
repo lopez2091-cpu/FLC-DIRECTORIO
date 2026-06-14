@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KaraokePro - App de Karaoke</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: #1a1a2e;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            width: 100%;
+            max-width: 400px;
+            color: #fff;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .search-box {
+            padding: 20px;
+            background: #16213e;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            background: #0f3460;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .search-box input::placeholder {
+            color: #888;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #16213e;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            background: #16213e;
+            color: #888;
+            font-weight: 600;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            background: #1a1a2e;
+        }
+
+        .content {
+            padding: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .song-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #16213e;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .song-item:hover {
+            background: #0f3460;
+            transform: translateX(5px);
+        }
+
+        .song-cover {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 5px;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .song-info {
+            flex: 1;
+        }
+
+        .song-title {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .song-artist {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .song-action {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+        .song-action:hover {
+            background: #764ba2;
+        }
+
+        .player-section {
+            background: #16213e;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .now-playing {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .playing-cover {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .playing-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .playing-artist {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .progress-bar {
+            background: #0f3460;
+            height: 4px;
+            border-radius: 2px;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            border-radius: 2px;
+            width: 35%;
+        }
+
+        .time-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: #888;
+            margin-bottom: 15px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .control-btn {
+            width: 45px;
+            height: 45px;
+            border: none;
+            border-radius: 50%;
+            background: #667eea;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .control-btn:hover {
+            background: #764ba2;
+            transform: scale(1.1);
+        }
+
+        .control-btn.play {
+            width: 55px;
+            height: 55px;
+            font-size: 24px;
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #0f3460;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .volume-control input {
+            flex: 1;
+        }
+
+        .queue-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: #16213e;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .queue-number {
+            background: #667eea;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .queue-info {
+            flex: 1;
+        }
+
+        .queue-title {
+            margin-bottom: 2px;
+            font-weight: 500;
+        }
+
+        .queue-user {
+            font-size: 11px;
+            color: #888;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .stat-card {
+            background: #16213e;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 22px;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #888;
+        }
+
+        .rating {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 15px;
+        }
+
+        .star {
+            font-size: 20px;
+            cursor: pointer;
+            color: #888;
+            transition: all 0.2s;
+        }
+
+        .star:hover {
+            color: #ffd700;
+            transform: scale(1.2);
+        }
+
+        .star.active {
+            color: #ffd700;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 20px;
+            color: #888;
+        }
+
+        .empty-state-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .history-item {
+            padding: 10px;
+            background: #16213e;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .history-time {
+            font-size: 11px;
+            color: #888;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #16213e;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🎤 KaraokePro</h1>
+            <p>La mejor app de karaoke en línea</p>
+        </div>
+
+        <!-- Search -->
+        <div class="search-box">
+            <input type="text" placeholder="🔍 Busca tu canción favorita...">
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab(this)">En Vivo</div>
+            <div class="tab" onclick="switchTab(this)">Cancionero</div>
+            <div class="tab" onclick="switchTab(this)">Mi Cola</div>
+            <div class="tab" onclick="switchTab(this)">Historial</div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- En Vivo Tab -->
+            <div id="tab-live" class="tab-content">
+                <div class="player-section">
+                    <div class="now-playing">
+                        <div class="playing-cover">🎸</div>
+                        <div class="playing-title">Shape of You</div>
+                        <div class="playing-artist">Ed Sheeran • Cantando: Jorge</div>
+                    </div>
+
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+
+                    <div class="time-info">
+                        <span>1:24</span>
+                        <span>4:24</span>
+                    </div>
+
+                    <div class="controls">
+                        <button class="control-btn">⏮</button>
+                        <button class="control-btn play">⏸</button>
+                        <button class="control-btn">⏭</button>
+                    </div>
+
+                    <div class="volume-control">
+                        <span>🔊</span>
+                        <input type="range" min="0" max="100" value="70">
+                    </div>
+                </div>
+
+                <div class="stats">
+                    <div class="stat-card">
+                        <div class="stat-value">8.5</div>
+                        <div class="stat-label">Puntuación</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">145</div>
+                        <div class="stat-label">Espectadores</div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 15px;">
+                    <h3 style="font-size: 13px; margin-bottom: 10px; color: #888;">Califica esta presentación</h3>
+                    <div class="rating">
+                        <span class="star active" onclick="toggleStar(this)">⭐</span>
+                        <span class="star active" onclick="toggleStar(this)">⭐</span>
+                        <span class="star active" onclick="toggleStar(this)">⭐</span>
+                        <span class="star active" onclick="toggleStar(this)">⭐</span>
+                        <span class="star" onclick="toggleStar(this)">⭐</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cancionero Tab -->
+            <div id="tab-songs" class="tab-content" style="display: none;">
+                <div class="song-item">
+                    <div class="song-cover">🎵</div>
+                    <div class="song-info">
+                        <div class="song-title">Shape of You</div>
+                        <div class="song-artist">Ed Sheeran</div>
+                    </div>
+                    <button class="song-action">Añadir</button>
+                </div>
+
+                <div class="song-item">
+                    <div class="song-cover">🎶</div>
+                    <div class="song-info">
+                        <div class="song-title">Bohemian Rhapsody</div>
+                        <div class="song-artist">Queen</div>
+                    </div>
+                    <button class="song-action">Añadir</button>
+                </div>
+
+                <div class="song-item">
+                    <div class="song-cover">🎼</div>
+                    <div class="song-info">
+                        <div class="song-title">Hello</div>
+                        <div class="song-artist">Adele</div>
+                    </div>
+                    <button class="song-action">Añadir</button>
+                </div>
+
+                <div class="song-item">
+                    <div class="song-cover">🎵</div>
+                    <div class="song-info">
+                        <div class="song-title">Somebody Else</div>
+                        <div class="song-artist">The 1975</div>
+                    </div>
+                    <button class="song-action">Añadir</button>
+                </div>
+
+                <div class="song-item">
+                    <div class="song-cover">🎶</div>
+                    <div class="song-info">
+                        <div class="song-title">Levitating</div>
+                        <div class="song-artist">Dua Lipa</div>
+                    </div>
+                    <button class="song-action">Añadir</button>
+                </div>
+            </div>
+
+            <!-- Mi Cola Tab -->
+            <div id="tab-queue" class="tab-content" style="display: none;">
+                <div class="queue-item">
+                    <div class="queue-number">1</div>
+                    <div class="queue-info">
+                        <div class="queue-title">Shape of You</div>
+                        <div class="queue-user">Jorge</div>
+                    </div>
+                </div>
+
+                <div class="queue-item">
+                    <div class="queue-number">2</div>
+                    <div class="queue-info">
+                        <div class="queue-title">Hello</div>
+                        <div class="queue-user">María</div>
+                    </div>
+                </div>
+
+                <div class="queue-item">
+                    <div class="queue-number">3</div>
+                    <div class="queue-info">
+                        <div class="queue-title">Bohemian Rhapsody</div>
+                        <div class="queue-user">Tu turno</div>
+                    </div>
+                </div>
+
+                <div class="queue-item">
+                    <div class="queue-number">4</div>
+                    <div class="queue-info">
+                        <div class="queue-title">Levitating</div>
+                        <div class="queue-user">Carlos</div>
+                    </div>
+                </div>
+
+                <div class="queue-item">
+                    <div class="queue-number">5</div>
+                    <div class="queue-info">
+                        <div class="queue-title">Someone Like You</div>
+                        <div class="queue-user">Ana</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Historial Tab -->
+            <div id="tab-history" class="tab-content" style="display: none;">
+                <div class="history-item">
+                    <div>
+                        <div style="margin-bottom: 3px;">Shape of You</div>
+                        <div style="font-size: 11px; color: #888;">Ed Sheeran</div>
+                    </div>
+                    <div class="history-time">Hoy 21:30</div>
+                </div>
+
+                <div class="history-item">
+                    <div>
+                        <div style="margin-bottom: 3px;">Hello</div>
+                        <div style="font-size: 11px; color: #888;">Adele</div>
+                    </div>
+                    <div class="history-time">Hoy 21:15</div>
+                </div>
+
+                <div class="history-item">
+                    <div>
+                        <div style="margin-bottom: 3px;">Levitating</div>
+                        <div style="font-size: 11px; color: #888;">Dua Lipa</div>
+                    </div>
+                    <div class="history-time">Ayer 22:45</div>
+                </div>
+
+                <div class="history-item">
+                    <div>
+                        <div style="margin-bottom: 3px;">Someone Like You</div>
+                        <div style="font-size: 11px; color: #888;">Adele</div>
+                    </div>
+                    <div class="history-time">Ayer 22:20</div>
+                </div>
+
+                <div class="history-item">
+                    <div>
+                        <div style="margin-bottom: 3px;">Bohemian Rhapsody</div>
+                        <div style="font-size: 11px; color: #888;">Queen</div>
+                    </div>
+                    <div class="history-time">Sábado 20:10</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(element) {
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            element.classList.add('active');
+
+            // Hide all content
+            document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
+
+            // Show selected content
+            const tabIndex = Array.from(element.parentElement.children).indexOf(element);
+            const tabNames = ['live', 'songs', 'queue', 'history'];
+            document.getElementById(`tab-${tabNames[tabIndex]}`).style.display = 'block';
+        }
+
+        function toggleStar(element) {
+            element.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
