@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monogramas de Boda · José Luis & Pía</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(135deg, #f5f1ed 0%, #e8dfd7 100%);
+      color: #2d2d2d;
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #1a1a1a;
+      letter-spacing: -1px;
+    }
+
+    .subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-weight: 300;
+      color: #5a4a3a;
+      margin-bottom: 8px;
+    }
+
+    .tagline {
+      font-size: 14px;
+      color: #7a6a5a;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 30px;
+    }
+
+    .divider {
+      width: 80px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #c9b5a0, transparent);
+      margin: 0 auto 30px;
+    }
+
+    .intro-text {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 40px;
+      font-size: 16px;
+      line-height: 1.6;
+      color: #5a4a3a;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+
+    .monogram-card {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: 1px solid rgba(201, 181, 160, 0.2);
+    }
+
+    .monogram-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    .monogram-display {
+      background: linear-gradient(135deg, #fafaf8 0%, #f0ebe5 100%);
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      position: relative;
+      min-height: 320px;
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+      max-width: 280px;
+      max-height: 280px;
+    }
+
+    .monogram-info {
+      padding: 24px;
+      text-align: center;
+    }
+
+    .monogram-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #1a1a1a;
+    }
+
+    .monogram-style {
+      font-size: 13px;
+      color: #7a6a5a;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .monogram-description {
+      font-size: 13px;
+      color: #8a7a6a;
+      line-height: 1.5;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    .download-btn {
+      margin-top: 12px;
+      padding: 8px 16px;
+      background: #c9b5a0;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .download-btn:hover {
+      background: #b5a08c;
+      transform: scale(1.05);
+    }
+
+    .featured-section {
+      margin-top: 80px;
+      padding: 60px 40px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      border: 1px solid rgba(201, 181, 160, 0.2);
+    }
+
+    .featured-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #1a1a1a;
+    }
+
+    .featured-display {
+      margin: 40px 0;
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      flex-wrap: wrap;
+    }
+
+    .featured-monogram {
+      flex: 1;
+      min-width: 250px;
+      max-width: 320px;
+    }
+
+    .featured-monogram svg {
+      width: 100%;
+      height: auto;
+    }
+
+    .featured-description {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      line-height: 1.8;
+      color: #5a4a3a;
+      margin-top: 30px;
+      font-style: italic;
+    }
+
+    .cta-buttons {
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 32px;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .btn-primary {
+      background: #1a1a1a;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #3a3a3a;
+      transform: scale(1.05);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #1a1a1a;
+      border: 2px solid #1a1a1a;
+    }
+
+    .btn-secondary:hover {
+      background: #1a1a1a;
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 36px; }
+      .subtitle { font-size: 20px; }
+      .grid { grid-template-columns: 1fr; }
+      .featured-display { gap: 30px; }
+      .featured-title { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Monogramas de Boda</h1>
+      <div class="divider"></div>
+      <p class="subtitle">José Luis & Pía</p>
+      <p class="tagline">Colección Exclusiva de Diseños</p>
+    </header>
+
+    <p class="intro-text">
+      Cada monograma ha sido cuidadosamente diseñado para reflejar elegancia,
+      sofisticación y el amor compartido. Selecciona tu favorito o combina elementos
+      de varios estilos para crear el diseño perfecto para tu gran día.
+    </p>
+
+    <div class="grid" id="monogramGrid"></div>
+
+    <div class="featured-section">
+      <h2 class="featured-title">Recomendación del Diseñador</h2>
+      <p class="intro-text">
+        Basado en tu estilo y personalidad, recomendamos esta combinación elegante:
+      </p>
+      <div class="featured-display">
+        <div class="featured-monogram">
+          <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+            <!-- Marco exterior -->
+            <circle cx="150" cy="150" r="135" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+            <circle cx="150" cy="150" r="128" fill="none" stroke="#c9b5a0" stroke-width="0.5"/>
+
+            <!-- Elemento decorativo superior -->
+            <path d="M 120 45 Q 150 35 180 45" fill="none" stroke="#c9b5a0" stroke-width="1.5"/>
+            <circle cx="150" cy="40" r="2.5" fill="#c9b5a0"/>
+
+            <!-- Iniciales principales -->
+            <text x="115" y="160" font-family="Playfair Display, serif" font-size="64" font-weight="700" text-anchor="middle" fill="#1a1a1a">J</text>
+            <text x="185" y="160" font-family="Playfair Display, serif" font-size="64" font-weight="700" text-anchor="middle" fill="#1a1a1a">P</text>
+
+            <!-- Ampersand decorativo -->
+            <text x="150" y="175" font-family="Cormorant Garamond, serif" font-size="28" text-anchor="middle" fill="#c9b5a0" font-style="italic">&</text>
+
+            <!-- Elemento decorativo inferior -->
+            <path d="M 120 260 Q 150 270 180 260" fill="none" stroke="#c9b5a0" stroke-width="1.5"/>
+            <circle cx="150" cy="275" r="2.5" fill="#c9b5a0"/>
+
+            <!-- Lineas decorativas -->
+            <line x1="60" y1="150" x2="95" y2="150" stroke="#c9b5a0" stroke-width="1"/>
+            <line x1="205" y1="150" x2="240" y2="150" stroke="#c9b5a0" stroke-width="1"/>
+          </svg>
+        </div>
+      </div>
+      <p class="featured-description">
+        Este diseño elegante y clásico combina la tradición con modernidad.
+        Las iniciales en Playfair Display transmiten sofisticación, mientras que
+        el ampersand decorativo simboliza la unión entre ambos. Perfecto para
+        invitaciones, decoración de ceremonia y favores de boda.
+      </p>
+      <div class="cta-buttons">
+        <button class="btn btn-primary">Descargar en Alta Resolución</button>
+        <button class="btn btn-secondary">Ver Más Opciones</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const monograms = [
+      {
+        name: "Clásico Elegante",
+        style: "Tradicional",
+        description: "Iniciales superpuestas con marco ornamental. Perfecto para invitaciones formales.",
+        svg: `
+          <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="150" cy="150" r="135" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+            <circle cx="150" cy="150" r="128" fill="none" stroke="#c9b5a0" stroke-width="0.5"/>
+            <text x="150" y="175" font-family="Playfair Display, serif" font-size="80" font-weight="900" text-anchor="middle" fill="#1a1a1a">JP</text>
+            <path d="M 80 150 L 90 150 M 210 150 L 220 150" stroke="#c9b5a0" stroke-width="1.5"/>
+          </svg>
+        `
+      },
+      {
+        name: "Diamante Sofisticado",
+        style: "Art Deco",
+        description: "Forma de diamante con iniciales enfatizadas. Elegancia geométrica perfecta.",
+        svg: `
+          <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="150,40 260,150 150,260 40,150" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+            <polygon points="150,50 250,150 150,250 50,150" fill="none" stroke="#c9b5a0" stroke-width="0.5"/>
+            <text x="130" y="165" font-family="Playfair Display, serif" font-size="56" font-weight="700" text-anchor="end" fill="#1a1a1a">J</text>
+            <text x="170" y="165" font-family="Playfair Display, serif" font-size="56" font-weight="700" text-anchor="start" fill="#1a1a1a">P</text>
+            <circle cx="150" cy="150" r="3" fill="#c9b5a0"/>
+          </svg>
+        `
+      },
+      {
+        name: "Marco Circular",
+        style: "Minimalista",
+        description: "Iniciales centradas en círculo perfecto. Diseño moderno y limpio.",
+        svg: `
+          <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="150" cy="150" r="140" fill="none" stroke="#1a1a1a" stroke-width="3"/>
+            <circle cx="150" cy="150" r="130" fill="none" stroke="#c9b5a0" stroke-width="1"/>
+            <text x="150" y="165" font-family="Montserrat" font-size="72" font-weight="700" text-anchor="middle" fill="#1a1a1a">J&P</text>
+          </svg>
+        `
+      },
+      {
+        name: "Corona Regia",
+        style: "Lujoso",
+        description: "Iniciales con elementos de corona. Para parejas que aman lo opulento.",
+        svg: `
+          <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="150" cy="150" r="135" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+            <path d="M 100 100 L 120 70 L 150 85 L 180 70 L 200 100" fill="none" stroke="#c9b5a0" stroke-width="2"/>
+            <circle cx="120" cy="70" r="3" fill="#c9b5a0"/>
+            <circle cx="150" cy="85" r="4" fill="#c9b5a0"/>
+            <circle cx="180" cy="70" r="3" fill="#c9b5a0"/>
+            <text x="130" y="170" font-family="Playfair Display, serif" font-size="48" font-weight="700" text-anchor="end" fill="#1a1a1a">J</text>
+            <text x="170" y="170" font-family="Playfair Display, serif" font-size="48" font-weight="700" text-anchor="start" fill="#1a1a1a">P</text>
+          </svg>
+        `
+      },
+      {
+        name: "Cursiva Romántica",
+        style: "Script",
+        description: "Iniciales en script cursivo. Romantismo y elegancia en su máxima expresión.",
+        svg: `
+          <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="150" cy="150" r="135" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+            <circle cx="150" cy="150" r="128" fill="none" stroke="#c9b5a0" stroke-width="0.5"/>
+            <text x="110" y="170" font-family="Cormorant Garamond, serif" font-size="72" font-weight="300" text-anchor="end" fill="#1a1a1a" font-style="italic">J</text>
+            <text x="190" y="170" font-family="Cormorant Garamond, serif" font-size="72" font-weight="300" text-anchor="start" fill="#1a1a1a" font-style="italic">P</text>
+            <text x="150" y="200" font-family="Cormorant Garamond, serif" font-size="24" text-anchor="middle" fill="#c9b5a0" font-style="italic">&</text>
+          </svg>
+        `
+      },
+      {
+        name: "Hojas Decorativas",
+        style: "Floral",
+        description: "Iniciales rodeadas de elementos florales sutiles. Naturaleza y romance.",
+        svg: `
+          <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="150" cy="150" r="135" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+            <path d="M 80 140 Q 75 150 80 160 M 220 140 Q 225 150 220 160" fill="none" stroke="#c9b5a0" stroke-width="1.5"/>
+            <path d="M 130 80 Q 140 75 150 80 M 130 220 Q 140 225 150 220" fill="none" stroke="#c9b5a0" stroke-width="1.5"/>
+            <text x="130" y="165" font-family="Playfair Display, serif" font-size="52" font-weight="700" text-anchor="end" fill="#1a1a1a">J</text>
+            <text x="170" y="165" font-family="Playfair Display, serif" font-size="52" font-weight="700" text-anchor="start" fill="#1a1a1a">P</text>
+          </svg>
+        `
+      },
+      {
+        name: "Entrelazado Moderno",
+        style: "Contemporáneo",
+        description: "Letras entrelazadas con diseño geométrico. Sofisticación actual.",
+        svg: `
+          <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+            <rect x="60" y="60" width="180" height="180" fill="none" stroke="#1a1a1a" stroke-width="2" rx="10"/>
+            <rect x="70" y="70" width="160" height="160" fill="none" stroke="#c9b5a0" stroke-width="0.5" rx="8"/>
+            <text x="150" y="175" font-family="Montserrat, sans-serif" font-size="68" font-weight="700" text-anchor="middle" fill="#1a1a1a">J∞P</text>
+          </svg>
+        `
+      },
+      {
+        name: "Vintage Ornamental",
+        style: "Clásico",
+        description: "Estilo vintage con ornamentos delicados. Nostalgia elegante.",
+        svg: `
+          <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="150" cy="150" r="135" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+            <circle cx="150" cy="150" r="120" fill="none" stroke="#c9b5a0" stroke-width="1" stroke-dasharray="3,3"/>
+            <path d="M 100 120 Q 110 100 125 110 Q 115 115 100 120" fill="#c9b5a0" opacity="0.6"/>
+            <path d="M 200 120 Q 190 100 175 110 Q 185 115 200 120" fill="#c9b5a0" opacity="0.6"/>
+            <text x="130" y="165" font-family="Playfair Display, serif" font-size="56" font-weight="700" text-anchor="end" fill="#1a1a1a">J</text>
+            <text x="170" y="165" font-family="Playfair Display, serif" font-size="56" font-weight="700" text-anchor="start" fill="#1a1a1a">P</text>
+          </svg>
+        `
+      },
+      {
+        name: "Corazones Entrelazados",
+        style: "Romántico",
+        description: "Iniciales con corazones. Perfecto para expresar amor puro.",
+        svg: `
+          <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="150" cy="150" r="135" fill="none" stroke="#c9b5a0" stroke-width="2"/>
+            <path d="M 130 140 Q 130 125 140 125 Q 150 125 150 135 Q 150 125 160 125 Q 170 125 170 140 L 150 160 Z" fill="#c9b5a0" opacity="0.7"/>
+            <text x="130" y="165" font-family="Playfair Display, serif" font-size="56" font-weight="700" text-anchor="end" fill="#1a1a1a">J</text>
+            <text x="170" y="165" font-family="Playfair Display, serif" font-size="56" font-weight="700" text-anchor="start" fill="#1a1a1a">P</text>
+          </svg>
+        `
+      },
+      {
+        name: "Líneas Geométricas",
+        style: "Minimalista",
+        description: "Diseño con líneas limpias y precisas. Modernidad absoluta.",
+        svg: `
+          <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+            <rect x="80" y="80" width="140" height="140" fill="none" stroke="#1a1a1a" stroke-width="3"/>
+            <line x1="150" y1="80" x2="150" y2="220" stroke="#c9b5a0" stroke-width="1"/>
+            <line x1="80" y1="150" x2="220" y2="150" stroke="#c9b5a0" stroke-width="1"/>
+            <text x="120" y="165" font-family="Montserrat, sans-serif" font-size="48" font-weight="700" text-anchor="middle" fill="#1a1a1a">J</text>
+            <text x="180" y="165" font-family="Montserrat, sans-serif" font-size="48" font-weight="700" text-anchor="middle" fill="#1a1a1a">P</text>
+          </svg>
+        `
+      },
+      {
+        name: "Viñeta Francesa",
+        style: "Parisino",
+        description: "Marco de viñeta francesa con iniciales. Inspiración europea.",
+        svg: `
+          <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 100 100 L 150 90 L 200 100 L 210 150 L 200 200 L 150 210 L 100 200 L 90 150 Z" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+            <path d="M 105 105 L 150 97 L 195 105 L 203 150 L 195 195 L 150 203 L 105 195 L 97 150 Z" fill="none" stroke="#c9b5a0" stroke-width="0.5"/>
+            <text x="130" y="165" font-family="Playfair Display, serif" font-size="48" font-weight="700" text-anchor="end" fill="#1a1a1a">J</text>
+            <text x="170" y="165" font-family="Playfair Display, serif" font-size="48" font-weight="700" text-anchor="start" fill="#1a1a1a">P</text>
+          </svg>
+        `
+      },
+      {
+        name: "Flores Estilizadas",
+        style: "Art Nouveau",
+        description: "Inspiración en el art nouveau con flores abstractas. Lujo vintage.",
+        svg: `
+          <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="150" cy="150" r="135" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+            <path d="M 150 80 Q 140 100 140 120 Q 140 140 150 145 Q 160 140 160 120 Q 160 100 150 80" fill="none" stroke="#c9b5a0" stroke-width="1.5"/>
+            <path d="M 150 220 Q 140 200 140 180 Q 140 160 150 155 Q 160 160 160 180 Q 160 200 150 220" fill="none" stroke="#c9b5a0" stroke-width="1.5"/>
+            <text x="130" y="165" font-family="Playfair Display, serif" font-size="56" font-weight="700" text-anchor="end" fill="#1a1a1a">J</text>
+            <text x="170" y="165" font-family="Playfair Display, serif" font-size="56" font-weight="700" text-anchor="start" fill="#1a1a1a">P</text>
+          </svg>
+        `
+      }
+    ];
+
+    const grid = document.getElementById('monogramGrid');
+
+    monograms.forEach((monogram, index) => {
+      const card = document.createElement('div');
+      card.className = 'monogram-card';
+      card.innerHTML = `
+        <div class="monogram-display">
+          ${monogram.svg}
+        </div>
+        <div class="monogram-info">
+          <div class="monogram-name">${monogram.name}</div>
+          <div class="monogram-style">${monogram.style}</div>
+          <div class="monogram-description">${monogram.description}</div>
+          <button class="download-btn" onclick="downloadMonogram(${index})">Descargar SVG</button>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+
+    function downloadMonogram(index) {
+      const monogram = monograms[index];
+      const svgContent = `<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">${monogram.svg}</svg>`;
+      const blob = new Blob([svgContent], { type: 'image/svg+xml' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `monogram-jose-luis-pia-${index + 1}.svg`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    }
+  </script>
+</body>
+</html>
