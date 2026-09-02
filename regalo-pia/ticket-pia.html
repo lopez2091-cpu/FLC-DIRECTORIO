@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Entrada de regalo · Macha y El Bloque Depresivo</title>
+<style>
+  @page { size: A4 portrait; margin: 10mm; }
+
+  :root{
+    --burdeos:#4b0d18;
+    --burdeos-osc:#33070f;
+    --oro:#c9a04e;
+    --oro-claro:#e8cf94;
+    --crema:#f7f0e1;
+    --tinta:#2b1a12;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  body{
+    background:#e6e0d4;
+    font-family:"Iowan Old Style",Georgia,"Times New Roman",serif;
+    color:var(--tinta);
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+
+  .hoja{
+    width:190mm;
+    margin:0 auto;
+    padding:6mm 0;
+  }
+
+  /* ---------- TICKET ---------- */
+  .ticket{
+    position:relative;
+    display:flex;
+    width:190mm;
+    height:85mm;
+    margin:0 0 10mm 0;
+    background:
+      radial-gradient(120% 140% at 15% 0%, #5d1220 0%, var(--burdeos) 45%, var(--burdeos-osc) 100%);
+    border:0.6mm solid var(--oro);
+    border-radius:2mm;
+    overflow:hidden;
+    box-shadow:0 0 0 0.3mm rgba(0,0,0,.25);
+  }
+  .ticket::after{ /* textura sutil */
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      repeating-linear-gradient(45deg, rgba(255,255,255,.025) 0 2px, transparent 2px 5px);
+    pointer-events:none;
+  }
+
+  /* Panel de arte */
+  .arte{
+    position:relative;
+    width:46mm;
+    flex:0 0 46mm;
+    border-right:0.4mm solid var(--oro);
+    overflow:hidden;
+    background:var(--burdeos-osc);
+  }
+  .arte img{
+    width:100%; height:100%;
+    object-fit:cover;
+    display:block;
+    filter:saturate(1.05) contrast(1.02);
+  }
+  .arte .velo{
+    position:absolute; inset:0;
+    background:linear-gradient(90deg, rgba(51,7,15,0) 55%, rgba(51,7,15,.85) 100%);
+  }
+  .arte .sector-vert{
+    position:absolute;
+    right:1.5mm; top:50%;
+    transform:translateY(-50%) rotate(180deg);
+    writing-mode:vertical-rl;
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:4.2mm;
+    letter-spacing:.22em;
+    font-weight:700;
+    color:var(--oro-claro);
+    text-shadow:0 0 2mm rgba(0,0,0,.8);
+  }
+
+  /* Cuerpo central */
+  .cuerpo{
+    flex:1 1 auto;
+    min-width:0;
+    padding:5mm 6mm 4mm 6mm;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    color:var(--crema);
+  }
+
+  .cinta{
+    display:inline-block;
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:2.5mm;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:var(--burdeos-osc);
+    background:linear-gradient(90deg,var(--oro-claro),var(--oro));
+    padding:1mm 2.5mm;
+    border-radius:0.8mm;
+    font-weight:700;
+  }
+
+  .presenta{
+    margin-top:3mm;
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:2.6mm;
+    letter-spacing:.3em;
+    text-transform:uppercase;
+    color:var(--oro);
+  }
+
+  h1{
+    font-size:9.5mm;
+    line-height:1.02;
+    font-weight:400;
+    letter-spacing:-0.01em;
+    color:#fff;
+    text-shadow:0 0.6mm 1.2mm rgba(0,0,0,.45);
+    margin:1mm 0 0.5mm 0;
+  }
+  h1 .chico{ display:block; font-size:5.2mm; color:var(--oro-claro); letter-spacing:.04em; }
+
+  .lugar{
+    font-size:3.6mm;
+    color:var(--crema);
+    opacity:.92;
+    font-style:italic;
+  }
+
+  .datos{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:2.4mm 6mm;
+    border-top:0.3mm solid rgba(201,160,78,.5);
+    padding-top:2.5mm;
+    margin-top:2.5mm;
+  }
+  .dato{ min-width:0; }
+  .dato .k{
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:2.1mm;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--oro);
+    display:block;
+    margin-bottom:0.6mm;
+  }
+  .dato .v{
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:3.3mm;
+    font-weight:700;
+    color:#fff;
+    white-space:nowrap;
+  }
+  .dato .v small{ font-weight:400; font-size:2.6mm; opacity:.85; display:block; white-space:normal; }
+
+  /* Talón */
+  .talon{
+    position:relative;
+    width:42mm;
+    flex:0 0 42mm;
+    background:var(--crema);
+    color:var(--tinta);
+    padding:5mm 4mm;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    text-align:center;
+  }
+  .talon::before{ /* línea de corte */
+    content:"";
+    position:absolute; left:0; top:0; bottom:0;
+    border-left:0.5mm dashed rgba(75,13,24,.45);
+  }
+  .perf{
+    position:absolute;
+    left:-2.6mm;
+    width:5mm; height:5mm;
+    border-radius:50%;
+    background:#e6e0d4;
+    border:0.3mm solid rgba(0,0,0,.08);
+  }
+  .perf.arriba{ top:-2.6mm; }
+  .perf.abajo{ bottom:-2.6mm; }
+
+  .talon .marca{
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:2.2mm;
+    letter-spacing:.24em;
+    text-transform:uppercase;
+    color:var(--burdeos);
+    font-weight:700;
+  }
+  .talon .admite{
+    font-size:5.4mm;
+    line-height:1.1;
+    color:var(--burdeos);
+    border-top:0.3mm solid rgba(75,13,24,.3);
+    border-bottom:0.3mm solid rgba(75,13,24,.3);
+    padding:2mm 0;
+    margin:2mm 0;
+  }
+  .talon .admite b{ display:block; font-size:3mm; letter-spacing:.16em; font-family:"Helvetica Neue",Arial,sans-serif; text-transform:uppercase; color:#7a2130; }
+  .talon .orden{
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:2.3mm;
+    letter-spacing:.1em;
+    color:#6b5647;
+  }
+  .talon .orden strong{ display:block; font-size:3.6mm; letter-spacing:.06em; color:var(--tinta); }
+
+  .barras{
+    height:9mm;
+    margin:2mm 0 1.5mm 0;
+    background:repeating-linear-gradient(90deg,
+      var(--tinta) 0 0.4mm, transparent 0.4mm 0.9mm,
+      var(--tinta) 0.9mm 1.6mm, transparent 1.6mm 2.1mm,
+      var(--tinta) 2.1mm 2.4mm, transparent 2.4mm 3.2mm);
+    opacity:.85;
+  }
+
+  .nota-legal{
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:1.9mm;
+    line-height:1.35;
+    color:#7c6857;
+  }
+
+  /* ---------- DEDICATORIA ---------- */
+  .dedicatoria{
+    width:190mm;
+    height:62mm;
+    background:var(--crema);
+    border:0.6mm solid var(--oro);
+    border-radius:2mm;
+    padding:7mm 9mm;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .dedicatoria::before{
+    content:"";
+    position:absolute; inset:2mm;
+    border:0.3mm solid rgba(201,160,78,.55);
+    border-radius:1mm;
+    pointer-events:none;
+  }
+  .dedicatoria .titulo{
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:2.6mm;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:#9a7736;
+    margin-bottom:3mm;
+  }
+  .dedicatoria .feliz{
+    font-size:8mm;
+    color:var(--burdeos);
+    line-height:1.1;
+    margin-bottom:3mm;
+  }
+  .dedicatoria p{
+    font-size:3.7mm;
+    line-height:1.55;
+    max-width:150mm;
+    margin:0 auto;
+    color:#4a3a2d;
+  }
+  .dedicatoria .firma{
+    margin-top:4mm;
+    font-style:italic;
+    font-size:3.4mm;
+    color:#6b5647;
+  }
+
+  @media print{
+    body{ background:#fff; }
+    .hoja{ padding:0; }
+    .perf{ background:#fff; }
+  }
+</style>
+</head>
+<body>
+<div class="hoja">
+
+  <!-- ============ ENTRADA 1 ============ -->
+  <div class="ticket">
+    <div class="arte">
+      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3FuxmoQ01m28jEKMja3aLJn2tnN/hf_20260902_163652_52dfa8dd-04d4-4239-8346-794849d37ba0.png" alt="">
+      <div class="velo"></div>
+      <div class="sector-vert">GALERÍA ANDES</div>
+    </div>
+
+    <div class="cuerpo">
+      <div>
+        <span class="cinta">Entrada de regalo · Cumpleaños de Pía</span>
+        <div class="presenta">Estadio Nacional presenta</div>
+        <h1>Macha<span class="chico">y El Bloque Depresivo</span></h1>
+        <div class="lugar">Boleros, valses y cancionero popular · Santiago de Chile</div>
+      </div>
+
+      <div class="datos">
+        <div class="dato">
+          <span class="k">Fecha</span>
+          <span class="v">VIE 11 DIC 2026<small>Apertura de puertas por confirmar</small></span>
+        </div>
+        <div class="dato">
+          <span class="k">Hora</span>
+          <span class="v">20:00 hrs</span>
+        </div>
+        <div class="dato">
+          <span class="k">Recinto</span>
+          <span class="v">Estadio Nacional<small>Acceso Pedro de Valdivia</small></span>
+        </div>
+        <div class="dato">
+          <span class="k">Sector</span>
+          <span class="v">Galería Andes<small>No numerado</small></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="talon">
+      <div class="perf arriba"></div>
+      <div class="perf abajo"></div>
+      <div>
+        <div class="marca">Macha y El Bloque Depresivo</div>
+        <div class="admite"><b>Admite</b>1 persona</div>
+      </div>
+      <div>
+        <div class="barras"></div>
+        <div class="orden">Orden de compra<strong>50491726</strong></div>
+        <div class="orden" style="margin-top:1.5mm">Entrada 1 de 2</div>
+      </div>
+      <div class="nota-legal">Recuerdo conmemorativo. El ingreso se realiza con el E-Ticket oficial de Puntoticket asociado a esta orden.</div>
+    </div>
+  </div>
+
+  <!-- ============ ENTRADA 2 ============ -->
+  <div class="ticket">
+    <div class="arte">
+      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3FuxmoQ01m28jEKMja3aLJn2tnN/hf_20260902_163652_52dfa8dd-04d4-4239-8346-794849d37ba0.png" alt="">
+      <div class="velo"></div>
+      <div class="sector-vert">GALERÍA ANDES</div>
+    </div>
+
+    <div class="cuerpo">
+      <div>
+        <span class="cinta">Entrada de regalo · Cumpleaños de Pía</span>
+        <div class="presenta">Estadio Nacional presenta</div>
+        <h1>Macha<span class="chico">y El Bloque Depresivo</span></h1>
+        <div class="lugar">Boleros, valses y cancionero popular · Santiago de Chile</div>
+      </div>
+
+      <div class="datos">
+        <div class="dato">
+          <span class="k">Fecha</span>
+          <span class="v">VIE 11 DIC 2026<small>Apertura de puertas por confirmar</small></span>
+        </div>
+        <div class="dato">
+          <span class="k">Hora</span>
+          <span class="v">20:00 hrs</span>
+        </div>
+        <div class="dato">
+          <span class="k">Recinto</span>
+          <span class="v">Estadio Nacional<small>Acceso Pedro de Valdivia</small></span>
+        </div>
+        <div class="dato">
+          <span class="k">Sector</span>
+          <span class="v">Galería Andes<small>No numerado</small></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="talon">
+      <div class="perf arriba"></div>
+      <div class="perf abajo"></div>
+      <div>
+        <div class="marca">Macha y El Bloque Depresivo</div>
+        <div class="admite"><b>Admite</b>1 persona</div>
+      </div>
+      <div>
+        <div class="barras"></div>
+        <div class="orden">Orden de compra<strong>50491726</strong></div>
+        <div class="orden" style="margin-top:1.5mm">Entrada 2 de 2</div>
+      </div>
+      <div class="nota-legal">Recuerdo conmemorativo. El ingreso se realiza con el E-Ticket oficial de Puntoticket asociado a esta orden.</div>
+    </div>
+  </div>
+
+  <!-- ============ DEDICATORIA ============ -->
+  <div class="dedicatoria">
+    <div class="titulo">Vale por una noche de boleros</div>
+    <div class="feliz">Feliz cumpleaños, Pía</div>
+    <p>Estas dos entradas ya son tuyas: el 11 de diciembre nos vamos al Estadio Nacional
+    a cantar a gritos con Macha y El Bloque Depresivo, en la Galería Andes.
+    Guarda este papel: es la promesa impresa de esa noche.</p>
+    <div class="firma">Con todo mi cariño · 2 de septiembre de 2026</div>
+  </div>
+
+</div>
+</body>
+</html>
